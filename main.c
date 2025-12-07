@@ -4,56 +4,47 @@
 
 int main(void) {
     Game g;
-    int choix = 0;
+    int choice = 0;
     int running = 1;
 
     while (running) {
-        printf("\n MENU PRINCIPAL \n");
-        printf("1 - Nouvelle partie\n");
-        printf("2 - Charger une partie\n");
-        printf("3 - Quitter\n");
-        printf("Votre choix: ");
+        printf("\nMAIN MENU\n");
+        printf("1 - New game\n");
+        printf("2 - Load game\n");
+        printf("3 - Quit\n");
+        printf("Your choice: ");
 
-        if (scanf("%d", &choix) != 1) {
-            return 0;
-        }
+        if (scanf("%d", &choice) != 1) return 0;
 
-        switch (choix) {
-            case 1:
-                init_game(&g);
+        if (choice == 1) {
+            init_game(&g);
             play_game(&g);
-            //  la fin de la partie on propose une sauvegarde
-            printf("Sauvegarder la partie ? (y/n): ");
-            char rep1;
-            scanf(" %c", &rep1);
-            if (rep1 == 'y' || rep1 == 'Y') {
+
+            printf("Save game? (y/n): ");
+            char r; scanf(" %c", &r);
+            if (r == 'y' || r == 'Y') {
                 if (save_game(&g, "save.txt"))
-                    printf("Partie sauvegardee dans save.txt\n");
+                    printf("Game saved.\n");
                 else
-                    printf("Erreur de sauvegarde.\n");
+                    printf("Error saving game.\n");
             }
-            break;
 
-            case 2:
-                if (load_game(&g, "save.txt")) {
-                    printf("Partie chargee depuis save.txt\n");
-                    play_game(&g);
-                } else {
-                    printf("Impossible de charger save.txt\n");
-                }
-            break;
+        } else if (choice == 2) {
+            if (load_game(&g, "save.txt")) {
+                printf("Game loaded.\n");
+                play_game(&g);
+            } else {
+                printf("Failed to load save.txt\n");
+            }
 
-            case 3:
-                running = 0;
-            break;
+        } else if (choice == 3) {
+            running = 0;
 
-            default:
-                printf("Choix invalide.\n");
-            break;
+        } else {
+            printf("Invalid choice.\n");
         }
     }
 
-    printf("good bye \n");
+    printf("Goodbye!\n");
     return 0;
 }
-
